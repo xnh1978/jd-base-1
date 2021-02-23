@@ -75,4 +75,3 @@ docker run -d \
     containrrr/watchtower \
     --cleanup
 ```
-12
