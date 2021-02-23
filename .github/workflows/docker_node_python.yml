@@ -14,8 +14,8 @@ jobs:
         with:
           publish: true
           imageName: noobx/jd
-          dockerFile: docker/Dockerfile_python
+          dockerFile: docker/py/Dockerfile
           platform: linux/amd64,linux/arm64,linux/arm/v7
-          tag: py
+          tag: py-dev
           dockerUser: ${{ secrets.DOCKER_USERNAME }}
           dockerPassword: ${{ secrets.DOCKER_PASSWORD }}

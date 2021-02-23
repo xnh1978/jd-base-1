@@ -4,6 +4,7 @@
 ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
 [ ${JD_DIR} ] && HelpJd=jd || HelpJd=jd.sh
 ScriptsDir=${ShellDir}/scripts
+ScriptsDir2=${ShellDir}/scripts2
 ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
@@ -213,7 +214,7 @@ function Reset_Pwd {
   echo -e "控制面板重置成功，用户名：admin，密码：adminadmin\n"
 }
 
-## 运行京东脚本
+## 运行js脚本
 function Run_Normal {
   Import_Conf $1 && Detect_Cron && Set_Env
   
@@ -250,6 +251,38 @@ function Run_Normal {
   fi
 }
 
+## 运行py脚本
+function Run_Normal2 {
+  Import_Conf $1 && Detect_Cron
+  
+  FileNameTmp1=$(echo $1 | perl -pe "s|\.py||")
+  SeekDir="${ScriptsDir2}"
+  FileName=""
+  WhichDir=""
+
+  for dir in ${SeekDir}
+  do
+    if [ -f ${dir}/${FileNameTmp1}.py ]; then
+      FileName=${FileNameTmp1}
+      WhichDir=${dir}
+      break
+    fi
+  done
+  
+  if [ -n "${FileName}" ] && [ -n "${WhichDir}" ]
+  then
+    [ $# -eq 1 ] && Random_Delay
+    LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
+    LogFile="${LogDir}/${FileName}/${LogTime}.log"
+    [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
+    cd ${WhichDir}
+    node ${FileName}.py | tee ${LogFile}
+  else
+    echo -e "\n在${ScriptsDir2}目录下未检测到 $1 脚本的存在，请确认...\n"
+    Help
+  fi
+}
+
 ## 命令检测
 case $# in
   0)
@@ -261,13 +294,17 @@ case $# in
       Run_HangUp
     elif [[ $1 == resetpwd ]]; then
       Reset_Pwd
-    else
+    elif
       Run_Normal $1
+    else
+      Run_Normal2 $1
     fi
     ;;
   2)
     if [[ $2 == now ]]; then
       Run_Normal $1 $2
+    elif
+      Run_Normal2 $1 $2
     else
       echo -e "\n命令输入错误...\n"
       Help

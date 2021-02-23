@@ -42,11 +42,12 @@ function Git_PullShell {
   cd ${ShellDir}
   git fetch --all
   ExitStatusShell=$?
-  git reset --hard origin/master
+  git reset --hard origin/py
 }
 
 ## 克隆scripts
 function Git_CloneScripts {
+  echo -e "更新LXK大佬脚本"
   git clone -b master ${ScriptsURL} ${ScriptsDir}
   ExitStatusScripts=$?
   echo
@@ -54,9 +55,28 @@ function Git_CloneScripts {
 
 ## 更新scripts
 function Git_PullScripts {
+  echo -e "更新LXK大佬脚本"
   cd ${ScriptsDir}
   git fetch --all
   ExitStatusScripts=$?
+  git reset --hard origin/master
+  echo
+}
+
+## 克隆scripts2
+function Git_CloneScripts2 {
+  echo -e "克隆Zero-S1/xmly_speed脚本，地址：${ScriptsURL2}\n"
+  git clone -b master ${ScriptsURL2} ${ScriptsDir2}
+  ExitStatusScripts2=$?
+  echo
+}
+
+## 更新scripts2
+function Git_PullScripts2 {
+  echo -e "更新Zero-S1/xmly_speed脚本，地址：${ScriptsURL2}\n"
+  cd ${ScriptsDir2}
+  git fetch --all
+  ExitStatusScripts2=$?
   git reset --hard origin/master
   echo
 }
@@ -314,14 +334,15 @@ else
 fi
 ## 更新crontab
 [[ $(date "+%-H") -le 2 ]] && Update_Cron
-## 克隆或更新js脚本
+## 克隆或更新js及py脚本
 if [ ${ExitStatusShell} -eq 0 ]; then
   echo -e "--------------------------------------------------------------\n"
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
   [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
+  [ -d ${ScriptsDir2}/.git ] && Git_PullScripts2 || Git_CloneScripts2
 fi
 
-## 执行各函数
+## 执行lxk各函数
 if [[ ${ExitStatusScripts} -eq 0 ]]
 then
   echo -e "js脚本更新完成...\n"
@@ -336,6 +357,14 @@ then
 else
   echo -e "js脚本更新失败，请检查原因或再次运行git_pull.sh...\n"
   Change_ALL
+fi
+
+## 执行xmly各函数
+if [[ ${ExitStatusScripts2} -eq 0 ]]
+then
+  echo -e "py脚本更新完成...\n"
+else
+  echo -e "py脚本更新失败，请检查原因或再次运行git_pull.sh...\n"
 fi
 
 ## 调用用户自定义的diy.sh
