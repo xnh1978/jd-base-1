@@ -6,6 +6,8 @@ ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
 LogDir=${ShellDir}/log
 [ ! -d ${LogDir} ] && mkdir -p ${LogDir}
 ScriptsDir=${ShellDir}/scripts
+ScriptsDir2=${ShellDir}/scripts2
+ScriptsDir3=${ShellDir}/scripts3
 ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
 FileDiy=${ConfigDir}/diy.sh
@@ -22,6 +24,8 @@ ContentDropTask=${ShellDir}/drop_task
 SendCount=${ShellDir}/send_count
 isTermux=${ANDROID_RUNTIME_ROOT}${ANDROID_ROOT}
 ScriptsURL=git@gitee.com:lxk0301/jd_scripts
+ScriptsURL2=https://github.com/Zero-S1/xmly_speed
+ScriptsURL3=https://github.com/kangwenhang/jd_docker2
 ShellURL=https://github.com/dockere/jd-base
 
 ## 更新crontab，gitee服务器同一时间限制5个链接，因此每个人更新代码必须错开时间，每次执行git_pull随机生成。
@@ -47,7 +51,7 @@ function Git_PullShell {
 
 ## 克隆scripts
 function Git_CloneScripts {
-  echo -e "更新LXK大佬脚本"
+  echo -e "更新LXK大佬脚本\n"
   git clone -b master ${ScriptsURL} ${ScriptsDir}
   ExitStatusScripts=$?
   echo
@@ -55,7 +59,7 @@ function Git_CloneScripts {
 
 ## 更新scripts
 function Git_PullScripts {
-  echo -e "更新LXK大佬脚本"
+  echo -e "更新LXK大佬脚本\n"
   cd ${ScriptsDir}
   git fetch --all
   ExitStatusScripts=$?
@@ -78,6 +82,24 @@ function Git_PullScripts2 {
   git fetch --all
   ExitStatusScripts2=$?
   git reset --hard origin/master
+  echo
+}
+
+## 克隆scripts2
+function Git_CloneScripts3 {
+  echo -e "克隆AutoSignMachine脚本\n"
+  git clone -b AutoSignMachine ${ScriptsURL3} ${ScriptsDir3}
+  ExitStatusScripts3=$?
+  echo
+}
+
+## 更新scripts2
+function Git_PullScripts3 {
+  echo -e "更新AutoSignMachine脚本\n"
+  cd ${ScriptsDir3}
+  git fetch --all
+  ExitStatusScripts3=$?
+  git reset --hard origin/AutoSignMachine
   echo
 }
 
@@ -223,6 +245,37 @@ function Npm_Install {
   fi
 }
 
+## npm install scripts3
+function Npm_Install3 {
+  cd ${ScriptsDir3}
+  if [[ "${PackageListOld3}" != "$(cat package.json)" ]]; then
+    echo -e "检测到package.json有变化，运行 npm install...\n"
+    Npm_InstallSub
+    if [ $? -ne 0 ]; then
+      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir3}/node_modules 后再次尝试一遍..."
+      rm -rf ${ScriptsDir3}/node_modules
+    fi
+    echo
+  fi
+
+  if [ ! -d ${ScriptsDir3}/node_modules ]; then
+    echo -e "运行 npm install...\n"
+    Npm_InstallSub
+    if [ $? -ne 0 ]; then
+      echo -e "\nnpm install 运行不成功，自动删除 ${ScriptsDir3}/node_modules...\n"
+      echo -e "请进入 ${ScriptsDir3} 目录后按照wiki教程手动运行 npm install...\n"
+      echo -e "当 npm install 失败时，如果检测到有新任务或失效任务，只会输出日志，不会自动增加或删除定时任务...\n"
+      echo -e "3...\n"
+      sleep 1
+      echo -e "2...\n"
+      sleep 1
+      echo -e "1...\n"
+      sleep 1
+      rm -rf ${ScriptsDir3}/node_modules
+    fi
+  fi
+}
+
 ## 输出是否有新的定时任务
 function Output_ListJsAdd {
   if [ -s ${ListJsAdd} ]; then
@@ -338,8 +391,10 @@ fi
 if [ ${ExitStatusShell} -eq 0 ]; then
   echo -e "--------------------------------------------------------------\n"
   [ -f ${ScriptsDir}/package.json ] && PackageListOld=$(cat ${ScriptsDir}/package.json)
+  [ -f ${ScriptsDir3}/package.json ] && PackageListOld3=$(cat ${ScriptsDir3}/package.json)
   [ -d ${ScriptsDir}/.git ] && Git_PullScripts || Git_CloneScripts
   [ -d ${ScriptsDir2}/.git ] && Git_PullScripts2 || Git_CloneScripts2
+  [ -d ${ScriptsDir3}/.git ] && Git_PullScripts3 || Git_CloneScripts3
 fi
 
 ## 执行lxk各函数
@@ -365,6 +420,16 @@ then
   echo -e "py脚本更新完成...\n"
 else
   echo -e "py脚本更新失败，请检查原因或再次运行git_pull.sh...\n"
+fi
+
+## 执行AutoSignMachine各函数
+if [[ ${ExitStatusScripts3} -eq 0 ]]
+then
+  echo -e "AutoSignMachine的js脚本更新完成...\n"
+  [ -d ${ScriptsDir3}/node_modules ]
+  Npm_Install3
+else
+  echo -e "AutoSignMachine的js脚本更新失败，请检查原因或再次运行git_pull.sh...\n"
 fi
 
 ## 调用用户自定义的diy.sh

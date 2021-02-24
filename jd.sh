@@ -5,12 +5,14 @@ ShellDir=${JD_DIR:-$(cd $(dirname $0); pwd)}
 [ ${JD_DIR} ] && HelpJd=jd || HelpJd=jd.sh
 ScriptsDir=${ShellDir}/scripts
 ScriptsDir2=${ShellDir}/scripts2
+ScriptsDir3=${ShellDir}/scripts3
 ConfigDir=${ShellDir}/config
 FileConf=${ConfigDir}/config.sh
 FileConfSample=${ShellDir}/sample/config.sh.sample
 LogDir=${ShellDir}/log
 ListScripts=($(cd ${ScriptsDir}; ls *.js | grep -E "j[drx]_"))
 ListCron=${ConfigDir}/crontab.list
+Dir=${ScriptsDir3}/index.js
 
 ## 导入config.sh
 function Import_Conf {
@@ -111,9 +113,7 @@ function Combin_All {
   #签到领现金(jd_cash.js)
   export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash "Jhozbeu1b-Ek8GvRw3UR0w@eU9YMrDFHKpVjAicnytU@9rqvuWU9sE-2")
   #闪购盲盒(jd_sgmh.js)
-  export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh "T022u_x3QRke_EnVIR_wnPEIcQCjVWmIaW5kRrbA@T0205KkcHkJujwKkXXy9wK9NCjVWmIaW5kRrbA@T012a1zrlZeWI-dHCjVWmIaW5kRrbA")
-  #环球挑战赛(jd_global.js)-活动时间：2021-02-02 至 2021-02-22
-  export JDGLOBAL_SHARECODES=$(Combin_Sub ForOtherGLOBAL "OTZwWkM3VnZUZlMxNko4Y1NxWjMwQXBReG1kbVFsV0JFKzNDZEIveXMvVT0=@TkFDcUEzQzZuMnpHYlArOElxVWFSUT09@U3Q4ZUgzalZMQjI5UitibjNNc0hidz09")
+  export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh "T022u_x3QRke_EnVIR_wnPEIcQCjVQmoaT5kRrbA@T0205KkcHkJujwKkXXy9wK9NCjVQmoaT5kRrbA@T012a1zrlZeWI-dHCjVQmoaT5kRrbA")
 }
 
 ## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
@@ -155,7 +155,7 @@ function Random_Delay {
 
 ## 使用说明
 function Help {
-  echo -e "本脚本的用法为："
+  echo -e "js脚本的用法为："
   echo -e "1. bash ${HelpJd} xxx      # 如果设置了随机延迟并且当时时间不在0-2、30-31、59分内，将随机延迟一定秒数"
   echo -e "2. bash ${HelpJd} xxx now  # 无论是否设置了随机延迟，均立即运行"
   echo -e "3. bash ${HelpJd} hangup   # 重启挂机程序"
@@ -254,7 +254,7 @@ function Run_Normal {
 ## 运行py脚本
 function Run_Normal2 {
   Import_Conf $1 && Detect_Cron
-  
+
   FileNameTmp1=$(echo $1 | perl -pe "s|\.py||")
   SeekDir="${ScriptsDir2}"
   FileName=""
@@ -268,7 +268,7 @@ function Run_Normal2 {
       break
     fi
   done
-  
+
   if [ -n "${FileName}" ] && [ -n "${WhichDir}" ]
   then
     [ $# -eq 1 ] && Random_Delay
@@ -276,10 +276,23 @@ function Run_Normal2 {
     LogFile="${LogDir}/${FileName}/${LogTime}.log"
     [ ! -d ${LogDir}/${FileName} ] && mkdir -p ${LogDir}/${FileName}
     cd ${WhichDir}
-    node ${FileName}.py | tee ${LogFile}
+    python3 ${FileName}.py | tee ${LogFile}
   else
     echo -e "\n在${ScriptsDir2}目录下未检测到 $1 脚本的存在，请确认...\n"
     Help
+  fi
+}
+
+#运行AutoSignMachine.js脚本
+function Run_Normal3 {
+  if [ -f ${ConfigDir}/$1.json ]; then
+    LogTime=$(date "+%Y-%m-%d-%H-%M-%S")
+    LogFile="${LogDir}/$1/${LogTime}.log"
+    [ ! -d ${LogDir}/$1 ] && mkdir -p ${LogDir}/$1
+    cd ${ScriptsDir3}
+    node ${Dir} $1 --config ${ConfigDir}/$1.json | tee ${LogFile}
+    else 
+      echo -e "\n配置文件不存在\n"
   fi
 }
 
@@ -294,17 +307,28 @@ case $# in
       Run_HangUp
     elif [[ $1 == resetpwd ]]; then
       Reset_Pwd
-    elif
-      Run_Normal $1
+    elif [[ $1 == 52pojie ]]; then
+      Run_Normal3 $1
+    elif [[ $1 == bilibili ]]; then
+      Run_Normal3 $1
+    elif [[ $1 == iqiyi ]]; then
+      Run_Normal3 $1
+    elif [[ $1 == unicom ]]; then
+      Run_Normal3 $1
     else
-      Run_Normal2 $1
+      Run_Normal $1
     fi
     ;;
   2)
     if [[ $2 == now ]]; then
       Run_Normal $1 $2
-    elif
-      Run_Normal2 $1 $2
+    elif [[ $2 == py ]]; then
+      Run_Normal2 $1
+    fi
+    ;;
+  3)
+    if [[ $3 == now ]]; then
+      Run_Normal2 $1 $3
     else
       echo -e "\n命令输入错误...\n"
       Help

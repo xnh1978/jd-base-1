@@ -1,6 +1,10 @@
 name: "Docker_node_python"
 on:
+  push:
+    branches:
+      - py
   workflow_dispatch:
+  
   
 jobs:
   build:
@@ -16,6 +20,6 @@ jobs:
           imageName: noobx/jd
           dockerFile: docker/py/Dockerfile
           platform: linux/amd64,linux/arm64,linux/arm/v7
-          tag: py-dev
+          tag: py
           dockerUser: ${{ secrets.DOCKER_USERNAME }}
           dockerPassword: ${{ secrets.DOCKER_PASSWORD }}
