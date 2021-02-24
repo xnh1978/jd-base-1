@@ -1,4 +1,4 @@
-## Version: v3.27.0
+## Version: v3.28.0
 ## Date: 2021-02-21
 ## Update Content: 原lxk库改为私库；需要用的到秘钥拉取脚本，故重新构建了镜像，自动git_pull改为每天两次，每次拉取自动随机cron。
 
