@@ -13,6 +13,7 @@ var got = require('got');
 var path = require('path');
 var fs = require('fs');
 var { execSync } = require('child_process');
+var { v4: uuidv4 } = require('uuid');
 
 var rootPath = path.resolve(__dirname, '..')
 // config.sh 文件所在目录
@@ -412,6 +413,26 @@ app.get('/home', function (request, response) {
     }
 
 });
+
+/**
+ * 获取用户名密码是否为初始状态
+ */
+app.get('/checkAuthState', function (request, response) {
+    fs.readFile(authConfigFile, 'utf8', function (err, data) {
+        if (err) console.log(err);
+        var con = JSON.parse(data);
+        if (con.user == "admin" && con.password == "adminadmin") {
+            var payload = { user: 'admin', password: uuidv4() };
+            fs.writeFile(authConfigFile, JSON.stringify(payload), 'utf8', function (error) {
+                if (error) console.log(error);
+                response.send({ err: 1, msg: "请在config.json中查看初始用户名密码" });
+            })
+        } else {
+            response.send({ err: 0 ,msg:"您无需修改"});
+        }
+    });
+});
+
 
 /**
  * 对比 配置页面
