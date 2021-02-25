@@ -108,7 +108,7 @@ nav .active a {
 
 /* Login page */
 .login-form {
-    width: 305px;
+    width: 300px;
     margin: 6rem auto 0 auto;
     font-family: Tahoma, Geneva, sans-serif;
 }
@@ -211,10 +211,9 @@ nav .active a {
 }
 
 #notice{
-    margin: 1rem 0;
+    margin-top: 1rem;
     text-align: center;
 }
-
 #notice span{
     background: crimson;
     color: white;
@@ -222,7 +221,6 @@ nav .active a {
     border-radius: 0.5rem;
     display: inline-block;
 }
-
 @media screen and (max-width: 480px) {
 
     nav ul li a:link,
