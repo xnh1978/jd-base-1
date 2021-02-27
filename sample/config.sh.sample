@@ -594,4 +594,4 @@ export XMLY_SPEED_COOKIE=""
 ##请至config文件夹中相应的.json文件进行查看。参考仓库地址：https://github.com/kangwenhang/jd_docker2/tree/AutoSignMachine（非原仓库地址）
 ##注意：.json文件配置完成后请删除内容注释那一行。
 ##联通脚本更新，请于config文件中创建.env文件并且填写参数（注意：联通的json文件不用配置，但不可以删除，必须保留并且删除第一行注释）
-##env文件参考：
+##env文件参考：https://github.com/dockere/jd-base/blob/py/sample/.env.sample
