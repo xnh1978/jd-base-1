@@ -381,23 +381,23 @@ ForOtherGLOBAL5=""
 ForOtherGLOBAL6=""
 
 ################################## 定义惊喜财富岛互助（选填） ##################################
-## 具体填法及要求详见本文件最下方“互助码填法示例”	## 具体填法及要求详见本文件最下方“互助码填法示例”
-MyJDCFD1=""	MyJdcfd1=""
-MyJDCFD2=""	MyJdcfd2=""
-MyJDCFD3=""	MyJdcfd3=""
-MyJDCFD4=""	MyJdcfd4=""
-MyJDCFD5=""	MyJdcfd5=""
-MyJDCFD6=""	MyJdcfd6=""
-MyJDCFDA=""	MyJdcfdA=""
-MyJDCFDB=""	MyJdcfdB=""
+## 具体填法及要求详见本文件最下方“互助码填法示例”
+MyJdcfd1=""
+MyJdcfd2=""
+MyJdcfd3=""
+MyJdcfd4=""
+MyJdcfd5=""
+MyJdcfd6=""
+MyJdcfdA=""
+MyJdcfdB=""
 
 
-ForOtherJDCFD1=""	ForOtherJdcfd1=""
-ForOtherJDCFD2=""	ForOtherJdcfd2=""
-ForOtherJDCFD3=""	ForOtherJdcfd3=""
-ForOtherJDCFD4=""	ForOtherJdcfd4=""
-ForOtherJDCFD5=""	ForOtherJdcfd5=""
-ForOtherJDCFD6=""	ForOtherJdcfd6=""
+ForOtherJdcfd1=""
+ForOtherJdcfd2=""
+ForOtherJdcfd3=""
+ForOtherJdcfd4=""
+ForOtherJdcfd5=""
+ForOtherJdcfd6=""
 
 ################################## 定义东东超市蓝币兑换数量（选填） ##################################
 ## 东东超市蓝币兑换，可用值包括：
