@@ -95,7 +95,7 @@ function Combin_All {
   #种豆得豆(jd_plantBean.js)
   export PLANT_BEAN_SHARECODES=$(Combin_Sub ForOtherBean "lc7eqgnugkdtwp2qlnvggt2bj7xxnwaayh5essa@uwgpfl3hsfqp3img4qkteo5oicqmyqcumye2jhy@cbagzqdyjhmq32xxyd2qn475eu")
   #京喜工厂(jd_dreamFactory.js)
-  export DREAM_FACTORY_SHARE_CODES=$(Combin_Sub ForOtherDreamFactory "XOR3A1bQDLLlTvR5WzR3bg==@SmMbqc8FwQ0Zqml8FIJQ7w==")
+  export DREAM_FACTORY_SHARE_CODES=$(Combin_Sub ForOtherDreamFactory "XOR3A1bQDLLlTvR5WzR3bg==@SmMbqc8FwQ0Zqml8FIJQ7w==@0f51WgzYHydCEESfms3PTg==")
   #东东工厂(jd_jdfactory.js)
   export DDFACTORY_SHARECODES=$(Combin_Sub ForOtherJdFactory "T022u_x3QRke_EnVIR_wnPEIcQCjVWnYaS5kRrbA@T012a1zrlZeWI-dHCjVWnYaS5kRrbA")
   #京东赚赚(jd_jdzz.js)
@@ -107,11 +107,14 @@ function Combin_All {
   #口袋书店(jd_bookshop.js)
   export BOOKSHOP_SHARECODES=$(Combin_Sub ForOtherBookShop "6b7d17c29d4e4f49a6335ee80157c455@c858f02a64094665ad7552721794ba2b@234f539da0824491befb23529dcdaa59")
   #签到领现金(jd_cash.js)
-  export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash "Jhozbeu1b-Ek8GvRw3UR0w@eU9YMrDFHKpVjAicnytU@9rqvuWU9sE-2")
+  export JD_CASH_SHARECODES=$(Combin_Sub ForOtherCash "Jhozbeu1b-Ek8GvRw3UR0w@eU9YMrDFHKpVjAicnytU@9rqvuWU9sE-2@eBozZO-zYP4j8WY@ZnQxbr-wY_Qhoz_SnXpF")
   #闪购盲盒(jd_sgmh.js)
   export JDSGMH_SHARECODES=$(Combin_Sub ForOtherSgmh "T022u_x3QRke_EnVIR_wnPEIcQCjVQmoaT5kRrbA@T0205KkcHkJujwKkXXy9wK9NCjVQmoaT5kRrbA@T012a1zrlZeWI-dHCjVQmoaT5kRrbA")
   #惊喜财富岛(jd_cfd.js)
-  export JDCFD_SHARECODES=$(Combin_Sub ForOtherJdcfd "401DA52935EB84F3BDAC92C458E6B530888E1FAA1E33AF78C5315A97994F6CE6")
+  export JDCFD_SHARECODES=$(Combin_Sub ForOtherJdcfd "401DA52935EB84F3BDAC92C458E6B53043E59FCFB64E82CF43BDB57227EB24CE@F9C04F9AD0B414C6DC29EE25E71E86B0E0536B91BC393BA420F9E2358CFC1087@A6F67E22586A210AE6887B3DD522736630C9DBF062A66168B2C5315F99D1ABD7")
+  #东东健康社区(jd_health.js)
+  export JDHEALTH_SHARECODES=$(Combin_Sub ForOtherHealth "T022u_x3QRke_EnVIR_wnPEIcQCjVfnoaW5kRrbA@T012a1zrlZeWI-dHCjVfnoaW5kRrbA@T0205KkcHkJujwKkXXy9wK9NCjVfnoaW5kRrbA")
+  
 }
 
 ## 转换JD_BEAN_SIGN_STOP_NOTIFY或JD_BEAN_SIGN_NOTIFY_SIMPLE
